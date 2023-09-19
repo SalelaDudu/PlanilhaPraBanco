@@ -1,3 +1,0 @@
-Documentação da biblioteca
-
-https://openpyxl.readthedocs.io/en/stable/tutorial.html

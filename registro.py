@@ -1,13 +1,17 @@
+"""
+    criado em 19/09/2023
+    autor: Eduardo Santos
+    ultima modificacao: 19/09/2023
+"""
 import pymysql # Biblioteca para fazer interacao com BD
 import openpyxl # Biblioteca para ler planilha xlsx
-
 
 
 # Conexao com BD
 banco = pymysql.connect(    
     host="localhost",
     user="root",
-    passwd="root",
+    passwd="",
     database="login"
 )
 
@@ -19,27 +23,29 @@ cursor = banco.cursor()
 wb = openpyxl.load_workbook(filename='dados_login.xlsx') # Abrindo o Arquivo.xlsx
 sheet = wb['dados_01'] # Selecionando o nome da planilha
 
+# Array auxiliar que vai guardar os dados para serem registrados no BD
 arr=[]
 
-for x in range(2,5):
-    for y in range(1,6):
+# Percorre a planilha
+for x in range(2,32): # Percorre as linhas
+    for y in range (2,6): # Percorre as colunas
         arr.append(sheet.cell(row=x,column=y).value)
 
-print(arr)
-# # Definir que sera consulta  feita
-# consulta = """
-#   select actor_id,first_name, last_name from actor where actor_id in 
-#   (select actor_id from film_actor where film_id in (select film_id from film where title = "TRAP GUYS"));
-# """
+    # Definir os valores que serão registrados no banco
+    registro = """
+        insert into usuario(nome,sobrenome,email,senha)
+            values('{}','{}','{}','{}');
+        """.format(arr[0],arr[1],arr[2],int(arr[3]))
 
-# # Realiza a consulta
-# cursor.execute(consulta)
+    # Realiza o registro
+    cursor.execute(registro)
+    arr.clear()
 
-# #Fechar conexoes
+#Fechar conexoes
 cursor.close()    
 banco.close()
 
 '''
- Fim do codigo até 18/09/2023
- modificado por : Eduardo Santos
+ Fim do codigo até 19/09/2023
+ modificado por: Eduardo Santos
 '''

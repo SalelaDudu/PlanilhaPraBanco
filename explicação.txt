@@ -1,1 +1,1 @@
-conectar com banco e escrever os valores de uma planilha.
+Puxar valores de uma planilha e registrar direto no banco de dados.

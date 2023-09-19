@@ -1,0 +1,7 @@
+Documentação da biblioteca openpyxl
+
+https://openpyxl.readthedocs.io/en/stable/tutorial.html
+
+Documentação da biblioteca pymysql
+
+https://pypi.org/project/pymysql/
