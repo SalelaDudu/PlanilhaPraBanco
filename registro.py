@@ -3,11 +3,14 @@
     autor: Eduardo Santos
     ultima modificacao: 21/09/2023
 """
-import os #Biblioteca de interação com Sistema Operacional
+import os # Biblioteca de interação com Sistema Operacional
 import pymysql # Biblioteca para fazer interacao com BD
 import openpyxl # Biblioteca para ler planilha xlsx
+import prompt_toolkit # Biblioteca para usar autocomplete nos input
+import prompt_toolkit.completion
 
-
+# Configurar o completador de caminhos para o diretório atual
+completer = prompt_toolkit.completion.PathCompleter()
 
 # Conexao com BD
 banco = pymysql.connect(    
@@ -43,7 +46,7 @@ else:
     
 # Aguarda o usuário inserir a planilha
 print("Insira o arquivo a ser trabalhado: ")
-arq=(input())
+arq=prompt_toolkit.prompt('',completer=completer)
 
 print("\nCarregando arquivo...\n")
 
@@ -63,11 +66,13 @@ if len(wb.sheetnames) < 1:
 else:
     print("Selecione uma Planilha para trabalhar:")
     print(format_visual)
+    planilhas.clear()
     for i in wb.sheetnames:
         print(i)
+        planilhas.append(i)
     print(format_visual)
 
-ws = wb[input()]
+ws = wb[prompt_toolkit.prompt('',completer=prompt_toolkit.completion.WordCompleter(planilhas))]
 print(format_visual)
 print('\nA planilha: "{}" foi selecionada.'.format(i))
 print(format_visual)
